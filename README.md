@@ -32,7 +32,7 @@ The goal is to build a small, understandable, and reliable mathematical foundati
 
 ## Roadmap
 
-### v0.1 — Core
+### v0.1 — Basic
 
 Basic mathematical operations for `F32`.
 
@@ -43,14 +43,30 @@ Basic mathematical operations for `F32`.
 * [ ] `sqrt`
 * [ ] `pow`
 
-### v0.2 — Exponential and Trigonometric Functions
+### v0.2 — Constants, Exponential and Trigonometric Functions
+
+Constants:
+
+* [ ] `PI`
+* [ ] `E`
+* [ ] `TAU`
+
+Exponential and logarithmic functions:
 
 * [ ] `exp`
 * [ ] `ln`
 * [ ] `log`
+* [ ] `log10`
+
+Trigonometric functions:
+
 * [ ] `sin`
 * [ ] `cos`
 * [ ] `tan`
+* [ ] `asin`
+* [ ] `acos`
+* [ ] `atan`
+* [ ] `atan2`
 
 ### v0.3 — Vectors
 
@@ -104,33 +120,37 @@ Future areas of exploration include:
 
 ```text
 math/
-├── Math/
-│   ├── Core.bend
-│   ├── Constants.bend
-│   ├── Exp.bend
-│   └── Trig.bend
+├── core/
+│   ├── basic.bend
+│   ├── constants.bend
+│   ├── exp.bend
+│   └── trig.bend
 │
-├── Linear/
-│   ├── Vec2.bend
-│   ├── Vec3.bend
-│   ├── Vec4.bend
-│   └── Matrix.bend
+├── linear/
+│   ├── vec2.bend
+│   ├── vec3.bend
+│   ├── vec4.bend
+│   └── matrix.bend
 │
-├── Stats/
-│   └── Stats.bend
+├── stats/
+│   └── stats.bend
 │
-├── Tests/
+├── tests/
 │
-└── main.bend
+├── main.bend
+├── LICENSE
+└── README.md
 ```
 
 The structure may change as the library and the Bend ecosystem evolve.
 
-## Example
+## Usage
+
+Import the package as `Math`:
 
 ```bend
 import Base
-import ./Math/Core.bend as Math
+import math as Math
 
 def main() -> F32:
   Math.sqrt(25.0)
@@ -141,6 +161,46 @@ Expected result:
 ```text
 5.0
 ```
+
+Other functions follow the same public API style:
+
+```bend
+Math.abs(-5.0)
+
+Math.min(5.0, 10.0)
+Math.max(5.0, 10.0)
+Math.clamp(15.0, 0.0, 10.0)
+
+Math.sqrt(25.0)
+Math.pow(2.0, 8.0)
+
+Math.sin(1.0)
+Math.cos(1.0)
+
+Math.exp(2.0)
+Math.log(10.0)
+```
+
+The internal implementation remains organized into separate modules while `main.bend` defines the public interface exposed by the package.
+
+Conceptually:
+
+```text
+                  math
+                    │
+                    ▼
+                main.bend
+                    │
+        ┌───────────┼───────────┐
+        ▼           ▼           ▼
+      core        linear       stats
+        │
+   ┌────┼────┬────┐
+   ▼    ▼    ▼    ▼
+ basic constants exp trig
+```
+
+This allows the internal structure to evolve without unnecessarily changing the public API.
 
 ## Numerical Methods
 
@@ -260,7 +320,7 @@ The goal is not to copy sequential implementations from other languages unchange
 
 ### Keep the foundation small
 
-The core library should remain understandable.
+The mathematical foundation should remain small and understandable.
 
 Complex functionality should be built from simple and well-tested mathematical primitives.
 
